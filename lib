@@ -202,12 +202,25 @@ function library:Window(name)
 
         local obj = {instance = Button, posX = 12, isSlider = false}
         table.insert(activeElements, obj)
-        Button.SetVisible = function(_, bool)
+        
+        local api = {}
+        function api:SetVisible(bool)
             Button.Visible = bool
             rebuildLayout()
         end
+        function api:Destroy()
+            Button:Destroy()
+            for i, v in ipairs(activeElements) do
+                if v.instance == Button then
+                    table.remove(activeElements, i)
+                    break
+                end
+            end
+            rebuildLayout()
+        end
+        
         rebuildLayout()
-        return Button
+        return api
     end
 
     function functions:Label(text, color)
@@ -237,12 +250,15 @@ function library:Window(name)
         
         local obj = {instance = Label, posX = 0, isSlider = false}
         table.insert(activeElements, obj)
-        Label.SetVisible = function(_, bool)
+        
+        local api = {}
+        function api:SetVisible(bool)
             Label.Visible = bool
             rebuildLayout()
         end
+        
         rebuildLayout()
-        return Label
+        return api
     end
 
     function functions:Toggle(text, on, callback)
@@ -289,12 +305,15 @@ function library:Window(name)
 
         local obj = {instance = ToggleDescription, posX = 14, isSlider = false}
         table.insert(activeElements, obj)
-        ToggleDescription.SetVisible = function(_, bool)
+        
+        local api = {}
+        function api:SetVisible(bool)
             ToggleDescription.Visible = bool
             rebuildLayout()
         end
+        
         rebuildLayout()
-        return ToggleDescription
+        return api
     end
 
     function functions:Box(text, callback)
@@ -335,12 +354,15 @@ function library:Window(name)
 
         local obj = {instance = TextBox, posX = 12, isSlider = false}
         table.insert(activeElements, obj)
-        TextBox.SetVisible = function(_, bool)
+        
+        local api = {}
+        function api:SetVisible(bool)
             TextBox.Visible = bool
             rebuildLayout()
         end
+        
         rebuildLayout()
-        return TextBox
+        return api
     end
 
     function functions:Slider(text, min, max, default, callback)
@@ -472,13 +494,14 @@ function library:Window(name)
             SilderFiller.Size = UDim2.new(0, xOffset, 0, 6)
             Current.Text = tostring(math.round(value))
         end
-        
-        local obj = {instance = Slider, posX = 13, isSlider = true}
-        table.insert(activeElements, obj)
-        Slider.SetVisible = function(_, bool)
+        function slider:SetVisible(bool)
             Slider.Visible = bool
             rebuildLayout()
         end
+        
+        local obj = {instance = Slider, posX = 13, isSlider = true}
+        table.insert(activeElements, obj)
+        
         rebuildLayout()
         return slider
     end
@@ -609,13 +632,13 @@ function library:Window(name)
         local obj = {instance = Dropdown, posX = 12, isSlider = false}
         table.insert(activeElements, obj)
         
-        Dropdown.SetVisible = function(_, bool)
+        function dropFunctions:SetVisible(bool)
             Dropdown.Visible = bool
             DropdownFrame.Visible = false
             rebuildLayout()
         end
-        rebuildLayout()
         
+        rebuildLayout()
         return dropFunctions
     end
 
@@ -727,17 +750,20 @@ function library:Window(name)
             updateKeybindPos()
         end
         
-        KeybindButton.SetVisible = function(_, bool)
+        local api = {}
+        function api:SetVisible(bool)
             KeybindButton.Visible = bool
             ModeButton.Visible = bool
             rebuildLayout()
         end
-        rebuildLayout()
         
-        return KeybindButton
+        rebuildLayout()
+        return api
     end
 
     return functions
 end
+
+return library
 
 return library
