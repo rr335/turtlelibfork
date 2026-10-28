@@ -945,7 +945,6 @@ function library:Window(name)
 	return colorFuncs
     end
 
-    -- НОВАЯ ФУНКЦИЯ КЕЙБИНДА
     function functions:Keybind(text, defaultKey, callback)
         local isListening = false
         local currentKey = defaultKey or Enum.KeyCode.RightShift
@@ -961,7 +960,7 @@ function library:Window(name)
         KeybindButton.Size = UDim2.new(0, 137, 0, 26)
         KeybindButton.Font = Enum.Font.SourceSans
         KeybindButton.TextColor3 = Color3.fromRGB(245, 246, 250)
-        KeybindButton.TextSize = 16.000
+        KeybindButton.TextScaled = true
         KeybindButton.Text = text .. ": " .. tostring(currentKey.Name)
         KeybindButton.TextWrapped = true
         KeybindButton.ZIndex = 2 + zindex
