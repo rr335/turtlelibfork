@@ -342,7 +342,7 @@ function library:Window(name)
         end
 
         if pastSliders[winCount] then
-            offset = 60
+            offset = 80
         end
 
         sizes[winCount] = sizes[winCount] + offset
